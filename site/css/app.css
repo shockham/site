@@ -6,7 +6,7 @@ img{ filter:drop-shadow(1px 1px rgba(255,0,0,0.5)) drop-shadow(1px -1px rgba(0,2
 h1{ font-size:150%; display:inline-block; }
 a{ text-decoration:none; color:#fff; transition:all 0.5s ease 0s; }
 a:hover{ color:#eee; opacity:0.7; transition:all 0.5s ease 0s; }
-.logo{ filter:invert(0); transition:all 0.5s ease 0s; height:70px; display:inline-block; vertical-align:middle; }
+.logo{ filter:invert(0); transition:all 0.5s ease 0s; height:70px; display:inline-block; }
 .logo:hover{ filter:invert(0.5); transition:all 0.5s ease 0s; }
 
 .header{ margin-bottom: 40px; }
