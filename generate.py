@@ -19,7 +19,7 @@ def gen_navbar(pages):
     navbar = "".join(
         ['<a target="_self" href="%s">%s</a>\n' % (s, s.rstrip(".html")) for s in pages]
     )
-    return navbar + "</div><div>"
+    return navbar + "</div></div><div>"
 
 
 footer_str = read_part("footer.html", pages, "</div></body></html>")
