@@ -4,18 +4,27 @@
 #include <string.h>
 
 static void output_file (const char *fn);
+static void gen_pages ();
+static void gen_nav ();
 
 const char* pages_path = "./pages/";
 
 int main (void) {
-    DIR *dp;
+    gen_nav();
+
+    return 0;
+}
+
+
+static void gen_pages () {
+    DIR* dp;
     struct dirent *ep;
 
     dp = opendir (pages_path);
     if (dp != NULL) {
         while (ep = readdir (dp)) {
             if (ep->d_type == DT_REG) {
-                printf ("reg: %s\n", ep->d_name);
+                printf ("Processing: %s\n", ep->d_name);
                 output_file (ep->d_name);
             }
         }
@@ -24,12 +33,35 @@ int main (void) {
     } else {
         perror ("Couldn't open the directory");
     }
+}
 
-    return 0;
+static void gen_nav () {
+    DIR* dp;
+    struct dirent *ep;
+
+    dp = opendir (pages_path);
+    if (dp != NULL) {
+        char buffer[4096];
+        while (ep = readdir (dp)) {
+            if (ep->d_type == DT_REG) {
+                strcat (buffer, "<a target=\"_self\" href=\"");
+                strcat (buffer, ep->d_name);
+                strcat (buffer, ".html\">");
+                strcat (buffer, ep->d_name);
+                strcat (buffer, "</a>");
+            }
+        }
+
+        printf ("Nav: %s\n", buffer);
+
+        (void) closedir (dp);
+    } else {
+        perror ("Couldn't open the directory");
+    }
 }
 
 static void output_file (const char *fn) {
-    FILE *fp;
+    FILE* fp;
 
     char full_path[64];
     strcpy (full_path, pages_path);
@@ -41,9 +73,7 @@ static void output_file (const char *fn) {
         char buffer[4096];
 
         do {
-            /* Read some bytes from file */
             n = fread (buffer, 1, 4096, fp);
-            /* Output bytes to screen */
             fwrite (buffer, 1, n, stdout);
         } while (n != 0);
 
