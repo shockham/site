@@ -11,6 +11,7 @@ static void gen_nav (char buffer[4096]);
 const char* header_path = "header.html";
 const char* footer_path = "footer.html";
 const char* pages_path = "./pages/";
+const char* site_path = "./site/";
 
 int main (void) {
     char nav_html[4096];
@@ -50,6 +51,16 @@ static void gen_pages (char nav_html[4096]) {
 
                 printf ("Page %s: %s\n\n", ep->d_name, buffer);
 
+                FILE *fp;
+
+                char full_path[64];
+                strcpy (full_path, site_path);
+                strcat (full_path, ep->d_name);
+
+                fp = fopen(full_path, "w+");
+                fprintf(fp, buffer);
+                fclose(fp);
+
                 memset(&buffer[0], 0, sizeof(buffer));
             }
         }
@@ -63,18 +74,32 @@ static void gen_pages (char nav_html[4096]) {
 static void gen_nav (char buffer[4096]) {
     DIR* dp;
     struct dirent *ep;
+    char nav_buffer[4096];
 
     dp = opendir (pages_path);
     if (dp != NULL) {
         while (ep = readdir (dp)) {
-            if (ep->d_type == DT_REG) {
-                strcat (buffer, "<a target=\"_self\" href=\"");
-                strcat (buffer, ep->d_name);
-                strcat (buffer, ".html\">");
-                strcat (buffer, ep->d_name);
-                strcat (buffer, "</a>\n");
+            if (
+                ep->d_type == DT_REG &&
+                strcmp (ep->d_name, header_path) &&
+                strcmp (ep->d_name, footer_path)
+            ) {
+                strcat (nav_buffer, "<a target=\"_self\" href=\"");
+                strcat (nav_buffer, ep->d_name);
+                strcat (nav_buffer, "\">");
+
+                char *filename_dot = strchr(ep->d_name, '.');
+                int offset = filename_dot - ep->d_name;
+                ep->d_name[offset] = '\0';
+
+                strcat (nav_buffer, ep->d_name);
+                strcat (nav_buffer, "</a>\n");
             }
         }
+
+        strcat (nav_buffer, "</div></div><div>");
+
+        strcpy(buffer, nav_buffer);
 
         (void) closedir (dp);
     } else {
