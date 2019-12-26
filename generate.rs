@@ -18,7 +18,7 @@ fn main() -> io::Result<()> {
             println!("{}", file_name);
             if !(file_name == "header" || file_name == "footer") {
                 return format!(
-                    "<a target=\"_self\" href=\"{}.html\">{}</a>\n", 
+                    "<a target=\"_self\" href=\"{}.html\">{}</a>\n",
                     file_name,
                     file_name
                 );
@@ -45,5 +45,5 @@ fn main() -> io::Result<()> {
             }
         }));
 
-    Ok(()) 
+    Ok(())
 }
