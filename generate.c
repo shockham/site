@@ -49,8 +49,6 @@ static void gen_pages (char nav_html[]) {
                 strcat (buffer, page_html);
                 strcat (buffer, footer_html);
 
-                printf ("Page %s: %s\n\n", ep->d_name, buffer);
-
                 FILE *fp;
 
                 char full_path[64];
