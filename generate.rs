@@ -15,7 +15,6 @@ fn main() -> io::Result<()> {
         .flat_map(|res| res.map(|e| {
             let mut file_name = e.file_name().into_string().unwrap();
             file_name.truncate(file_name.len() - 5);
-            println!("{}", file_name);
             if !(file_name == "header" || file_name == "footer") {
                 return format!(
                     "<a target=\"_self\" href=\"{}.html\">{}</a>\n",
@@ -38,7 +37,6 @@ fn main() -> io::Result<()> {
 
                 let html = format!("{}{}{}{}", HEADER_HTML, nav_html, contents, FOOTER_HTML);
 
-                println!("{}", html);
                 let file_name = e.file_name().into_string().unwrap();
                 let mut file = File::create(format!("{}{}", SITE_PATH, file_name)).unwrap();
                 file.write_all(html.as_bytes()).unwrap();
