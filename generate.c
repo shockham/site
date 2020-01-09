@@ -4,9 +4,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-static void output_file (const char* fn, char buffer[4096]);
-static void gen_pages (char nav_html[4096]);
-static void gen_nav (char buffer[4096]);
+static void output_file (const char* fn, char buffer[]);
+static void gen_pages (char nav_html[]);
+static void gen_nav (char buffer[]);
 
 const char* header_path = "header.html";
 const char* footer_path = "footer.html";
@@ -22,7 +22,7 @@ int main (void) {
     return 0;
 }
 
-static void gen_pages (char nav_html[4096]) {
+static void gen_pages (char nav_html[]) {
     DIR* dp;
     struct dirent *ep;
 
@@ -71,7 +71,7 @@ static void gen_pages (char nav_html[4096]) {
     }
 }
 
-static void gen_nav (char buffer[4096]) {
+static void gen_nav (char buffer[]) {
     DIR* dp;
     struct dirent *ep;
     char nav_buffer[4096];
@@ -107,7 +107,7 @@ static void gen_nav (char buffer[4096]) {
     }
 }
 
-static void output_file (const char *fn, char buffer[4096]) {
+static void output_file (const char *fn, char buffer[]) {
     FILE* fp;
 
     char full_path[64];
